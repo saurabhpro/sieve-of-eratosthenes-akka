@@ -10,8 +10,9 @@ class Sequential extends Actor {
       val tick = System.currentTimeMillis()
       val count = (1 to n).count(isPrime)
       val tock = System.currentTimeMillis()
-      println(s"Sequential found number of primes up to $n is $count")
-      println("Sequential method took: " + (tock - tick) + "ms")
+      println(s"Sequential method found the number of primes up to $n is $count after ${tock - tick}ms")
+//      println(s"Sequential found number of primes up to $n is $count")
+//      println("Sequential method took: " + (tock - tick) + "ms")
     }
   }
 

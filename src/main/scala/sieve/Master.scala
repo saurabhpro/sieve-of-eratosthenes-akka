@@ -33,9 +33,13 @@ class Master extends Actor {
     }
     case End => {
       tock = System.currentTimeMillis()
-      println(s"Number of primes up to $N is $count")
-      println("Elapsed time: " + (tock - tick) + "ms")
+      println(s"Sieve of Eratothenes method found the number of primes up to $N is $count after ${tock - tick}ms")
+      val estimate = primeNumberTheorem(N)
+      val accuracy = 100 - 100.0 * Math.abs(estimate - count) / count
+      println(f"Prime number theorem estimated there are $estimate prime numbers up to $N, a $accuracy%.2f%% accuracy")
     }
     case _ => count += 1
   }
+
+  def primeNumberTheorem(n : Int) = Math.round(n / Math.log(n))
 }
