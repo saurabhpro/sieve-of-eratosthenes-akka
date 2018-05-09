@@ -18,9 +18,12 @@ class Master extends Actor {
   override def receive: Receive = {
     case Start(n) => {
       N = n
+      val seq = context.actorOf(Props(new Sequential))
+      seq ! Start(n)
+
       tick = System.currentTimeMillis()
-      val prime2 = context.actorOf(Props(new Worker(2, n)))
-      (3 to n).foreach(prime2 ! _)
+      val prime2 = context.actorOf(Props(new Worker(2, N)))
+      (3 to N).foreach(prime2 ! _)
       prime2 ! End
 
     }
