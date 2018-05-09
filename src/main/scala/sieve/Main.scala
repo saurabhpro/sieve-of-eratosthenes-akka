@@ -7,7 +7,7 @@ object Main extends App {
   val system = ActorSystem("sieve")
   val myActor = system.actorOf(Props[Master], "master")
 
-  myActor ! Start
-  Thread.sleep(3000)
-  myActor ! Stop
+  myActor ! Start(100000)
+//  Thread.sleep(50000)
+//  myActor ! Stop
 }
