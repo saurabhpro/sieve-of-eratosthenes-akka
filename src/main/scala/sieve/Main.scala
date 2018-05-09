@@ -8,6 +8,6 @@ object Main extends App {
   val myActor = system.actorOf(Props[Master], "master")
 
   myActor ! Start
-  Thread.sleep(10000)
+  Thread.sleep(3000)
   myActor ! Stop
 }
