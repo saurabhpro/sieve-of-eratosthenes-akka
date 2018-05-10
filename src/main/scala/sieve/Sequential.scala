@@ -1,17 +1,17 @@
 package sieve
 
-import akka.actor.Actor
+import akka.actor.{Actor, ActorRef}
 import Master._
 
-class Sequential extends Actor {
+class Sequential(master: ActorRef) extends Actor {
 
   override def receive: Receive = {
     case Start(n) => {
       val tick = System.currentTimeMillis()
       val count = (1 to n).count(isPrime)
       val tock = System.currentTimeMillis()
-      println(s"Sequential method found the number of primes up to $n is $count after ${tock - tick}ms")
-
+//      println(s"Sequential method found the number of primes up to $n is $count after ${tock - tick}ms")
+      master ! Result("sequential", n, count, tock - tick) // report result to master
     }
   }
 
