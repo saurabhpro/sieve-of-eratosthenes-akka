@@ -24,6 +24,6 @@ Sieve of Eratothenes method found the number of primes up to 500000 is 41538 aft
 Prime number theorem estimated there are 38103 prime numbers up to 500000, a 91,73% accuracy
 Sequential method found the number of primes up to 500000 is 41538 after 107434ms
 ```  
-
-Finally, using Akka cluster, we'll build a distributed system without changing the logic implementation.  
+## Scaling out
+Finally, using Akka cluster, we'll build a distributed system without having to change the logic implementation.
 ![cluster image](https://raw.githubusercontent.com/luonglearnstocode/sieve-of-eratosthenes-akka/master/cluster.png)

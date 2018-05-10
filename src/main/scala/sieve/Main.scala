@@ -9,8 +9,10 @@ import sieve.Master._
 object Main extends App {
   val config = ConfigFactory.load()
   val system = ActorSystem("sieveoferatosthenes")
-  val myActor = system.actorOf(Props[Master], "master")
-  myActor ! Start(100000)
+
+  // to test run locally
+//  val myActor = system.actorOf(Props[Master], "master")
+//  myActor ! Start(100000)
 
   // run jar with command java -DPORT=2551 -jar SieveOfEratosthenes-assembly-0.1.jar
   // this will create seed node and router towards the cluster (see below)
@@ -34,7 +36,6 @@ object Main extends App {
 
   if (config.getString("akka.remote.netty.tcp.port") == "2555") {
     Thread.sleep(5000)
-
     val router = system.actorSelection("akka.tcp://sieveoferatosthenes@127.0.0.1:2551/user/routeractor")
 
     (10000 to 200000 by 10000).foreach(f = (i) => {
