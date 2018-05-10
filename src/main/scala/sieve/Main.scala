@@ -9,8 +9,8 @@ import sieve.Master._
 object Main extends App {
   val config = ConfigFactory.load()
   val system = ActorSystem("sieveoferatosthenes")
-//  val myActor = system.actorOf(Props[Master], "master")
-//  myActor ! Start(100000)
+  val myActor = system.actorOf(Props[Master], "master")
+  myActor ! Start(100000)
 
   // run jar with command java -DPORT=2551 -jar SieveOfEratosthenes-assembly-0.1.jar
   // this will create seed node and router towards the cluster (see below)

@@ -8,13 +8,13 @@ class Sequential(master: ActorRef) extends Actor {
   override def receive: Receive = {
     case Start(n) => {
       val tick = System.currentTimeMillis()
-      val count = (1 to n).count(isPrime)
+      val count = (1 to n).count(isPrime) // count all the prime number from 1 to n
       val tock = System.currentTimeMillis()
-//      println(s"Sequential method found the number of primes up to $n is $count after ${tock - tick}ms")
       master ! Result("sequential", n, count, tock - tick) // report result to master
     }
   }
 
+  // check if number x is prime
   def isPrime(x: Int): Boolean = {
     if (x < 2) false
     else if (x == 2) true

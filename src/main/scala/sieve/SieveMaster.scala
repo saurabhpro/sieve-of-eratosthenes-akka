@@ -14,8 +14,8 @@ class SieveMaster(master: ActorRef) extends Actor {
     case Start(n) => {
       N = n
       tick = System.currentTimeMillis()
-      val prime2 = context.actorOf(Props(new Worker(2, n, self)))
-      (3 to n).foreach(prime2 ! _)
+      val prime2 = context.actorOf(Props(new Worker(2, n, self))) // create first prime actor
+      (3 to n).foreach(prime2 ! _) // send numbers up to n to prime2 actor
       prime2 ! End // after sending all numbers, notify prime2 that no more number will be sent
     }
     case End => { // worker actor notify no more primes

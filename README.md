@@ -18,12 +18,12 @@ This algorithm is very expensive and inefficient, because we repeat a lot of com
 ![Eratosthenes](https://upload.wikimedia.org/wikipedia/commons/b/b3/Eratosthene.01.png)  
 An elegant and simple solution from a ancient Greek philosopher Eratosthenes to generate all prime numbers up to N.
 We simply turn this problem into counting prime numbers problem and implement a parallel version using the Actor model with Akka.  
-First, we create an actor `Sieve2` that receives all integers up to N (3, 4, 5, 6...N), then filters all numbers that are not divisible by 2. The next number that is not divisible by 2 is 3, `Sieve2` will create the next actor in the pipeline `Sieve3`, then pass all following numbers to `Sieve3`(5, 7, 9, 11...)... Using Akka actors, we create a pipeline that grows dynamically, and the number of actors created is the number of primes we need to find.  
+First, we create an actor `prime2` that receives all integers up to N (3, 4, 5, 6...N), then filters all numbers that are not divisible by 2. The next number that is not divisible by 2 is 3, `prime2` will create the next actor in the pipeline `prime3`, then pass all following numbers to `prime3`(5, 7, 9, 11...)... Using Akka actors, we create a pipeline that grows dynamically, and the number of actors created is the number of primes we need to find.  
 ```
 Sieve of Eratothenes method found the number of primes up to 500000 is 41538 after 1586ms
 Prime number theorem estimated there are 38103 prime numbers up to 500000, a 91,73% accuracy
 Sequential method found the number of primes up to 500000 is 41538 after 107434ms
 ```  
 
-Finally, using Akka cluster, we'll build a distributed system without changing the logic implementation.
-
+Finally, using Akka cluster, we'll build a distributed system without changing the logic implementation.  
+![cluster image](https://raw.githubusercontent.com/luonglearnstocode/sieve-of-eratosthenes-akka/master/cluster.png)
