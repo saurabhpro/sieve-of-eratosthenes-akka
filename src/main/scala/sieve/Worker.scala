@@ -7,7 +7,7 @@ object Worker {
   case class NewPrime(i: Int)
 }
 
-class Worker(localPrime: Int, N: Int) extends Actor {
+class Worker(localPrime: Int, N: Int, master: ActorRef) extends Actor {
   var nextPrime: ActorRef = null
 
   import Master._
@@ -16,16 +16,18 @@ class Worker(localPrime: Int, N: Int) extends Actor {
 
   def beforeNewPrime: Receive = {
     case i: Int if !divisibleByLocalPrime(i) => {
-      context.actorSelection("/user/master") ! NewPrime(i) // notify master about the new prime
+//      context.actorSelection("/user/master") ! NewPrime(i) // notify master about the new prime
+      master ! NewPrime(i)
 //      println(s"new prime $i") // print out new prime
       if (i > Math.sqrt(N)) {
         context.become(restArePrimes)
       }  else {
-        nextPrime = context.actorOf(Props(new Worker(i, N))) // create next prime actor
+        nextPrime = context.actorOf(Props(new Worker(i, N, master))) // create next prime actor
         context.become(afterNewPrime)
       }
     }
-    case End => context.actorSelection("/user/master") ! End // received End before forwarding any number => the final prime
+    case End => master ! End
+//    case End => context.actorSelection("/user/master") ! End // received End before forwarding any number => the final prime
   }
 
   def afterNewPrime: Receive = {
@@ -37,8 +39,10 @@ class Worker(localPrime: Int, N: Int) extends Actor {
 
   // all received numbers are if not divisibleByLocalPrime will be prime, just notify master with NewPrime until End
   def restArePrimes: Receive = {
-    case i: Int if !divisibleByLocalPrime(i) => context.actorSelection("/user/master") ! NewPrime(i) // notify master about the new prime
-    case End => context.actorSelection("/user/master") ! End // the final prime
+    case i: Int if !divisibleByLocalPrime(i) => master ! NewPrime(i) // notify master about the new prime
+    case End => master ! End // the final prime
+//    case i: Int if !divisibleByLocalPrime(i) => context.actorSelection("/user/master") ! NewPrime(i) // notify master about the new prime
+//    case End => context.actorSelection("/user/master") ! End // the final prime
   }
 
   def divisibleByLocalPrime(x: Int) = (x % localPrime) == 0

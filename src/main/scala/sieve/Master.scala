@@ -1,6 +1,6 @@
 package sieve
 
-import akka.actor.{Actor, Props}
+import akka.actor.{Actor, ActorRef, Props}
 
 object Master {
   case class Start(N : Int)
@@ -25,7 +25,7 @@ class Master extends Actor {
 
       // sieve of Eratothenes method
       tick = System.currentTimeMillis()
-      val prime2 = context.actorOf(Props(new Worker(2, n)))
+      val prime2 = context.actorOf(Props(new Worker(2, n, self)))
       (3 to n).foreach(prime2 ! _)
       prime2 ! End // after sending all numbers, notify prime2 that no more number will be sent
     }
